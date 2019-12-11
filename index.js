@@ -4,8 +4,7 @@ const bot = require('./BotFunctions.js');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-const stdin = process.stdin;
-stdin.setEncoding('utf-8');
+process.stdin.setEncoding('utf-8');
 
 let isReady = false;
 let channelConnection;
@@ -21,10 +20,40 @@ client.once('ready', () => {
     isReady = true;
 });
 
-// client.on('message', message => {
-// });
+client.on('message', message => {
+    if(!message.startsWith('#')) return;
 
-stdin.on('data', async data => {
+    message = message.substring(1);
+
+    switch (message) {
+        case 'list':
+            let toSend = "";
+            fileMap.forEach((file, number) => toSend += `${number}-${file}\n`);
+            // TODO 
+            // message channel send
+            break;
+        case 'reload':
+            fileMap = bot.loadFileList();
+            break;
+        case 'stop':
+        case 'end':
+            if(!dispatcher) return;
+            dispatcher.end();
+            break;
+    }
+    if(message.startsWith('play')) {
+        if(!new RegExp('^play:.+').test(message)) {
+            // TODO 
+            // message channel send
+            // console.log('Incorrect usage <play>:<number>');
+            return;
+        }
+
+        dispatcher = bot.playSound(channel, channelConnection, parseInt(data.split(':')[1]), fileMap);
+    }
+});
+
+process.stdin.on('data', async data => {
     if(!isReady) return;
 
     const re = /^bot/;
@@ -45,7 +74,7 @@ stdin.on('data', async data => {
         case 'list':
             fileMap.forEach((file, number) => console.log(`${number}-${file}`));
             break;
-        case 'load':
+        case 'reload':
             fileMap = bot.loadFileList();
             break;
         case 'stop':
@@ -56,6 +85,7 @@ stdin.on('data', async data => {
         case 'exit':
             process.exit();
     }
+    
     if(data.startsWith('play')) {
         if(!new RegExp('^play:.+').test(data)) {
             console.log('Incorrect usage <play>:<number>');

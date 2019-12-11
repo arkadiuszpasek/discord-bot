@@ -13,11 +13,13 @@ exports.playSound = (_channel, _channelConnection, number, fileMap) => {
         console.log('Didn\'t read any file');
         return;
     }
+
     console.log(`Playing : ${file}...`);
     const dispatcher = _channelConnection.playFile(config.soundsLocation + file);
     dispatcher.on('end', () => {
         console.log('Playing finished');
     });
+
     return dispatcher;
 };
 
