@@ -21,16 +21,15 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
-    if(!message.startsWith('#')) return;
+    if(!message.content.startsWith('#') || message.author.id != '494922928929112064') return;
+    
+    const msg = message.content.substring(1);
 
-    message = message.substring(1);
-
-    switch (message) {
+    switch (msg) {
         case 'list':
             let toSend = "";
             fileMap.forEach((file, number) => toSend += `${number}-${file}\n`);
-            // TODO 
-            // message channel send
+            message.channel.send(toSend);
             break;
         case 'reload':
             fileMap = bot.loadFileList();
@@ -41,15 +40,13 @@ client.on('message', message => {
             dispatcher.end();
             break;
     }
-    if(message.startsWith('play')) {
-        if(!new RegExp('^play:.+').test(message)) {
-            // TODO 
-            // message channel send
-            // console.log('Incorrect usage <play>:<number>');
+    if(msg.startsWith('play')) {
+        if(!new RegExp('^play:.+').test(msg)) {
+            message.channel.send('Incorrect usage <play>:<number>');
             return;
         }
 
-        dispatcher = bot.playSound(channel, channelConnection, parseInt(data.split(':')[1]), fileMap);
+        dispatcher = bot.playSound(channel, channelConnection, parseInt(msg.split(':')[1]), fileMap);
     }
 });
 
