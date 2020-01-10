@@ -1,5 +1,5 @@
 # Discord Bot
-
+Simple bot implementing music interface (playing music files from specified directory)
 # Congiuration
 ## npm dependencies:
 ### discord.js - npm install discord.js

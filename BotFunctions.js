@@ -55,3 +55,9 @@ exports.loadFileList = () => {
     console.log('Files loaded successfully');
     return fileMap;
 };
+
+exports.stringifyList = map => {
+    let returnString = '';
+    map.forEach((file, number) => returnString += `${number}-${file}\n`);
+    return returnString;
+};

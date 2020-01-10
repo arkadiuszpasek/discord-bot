@@ -1,18 +1,17 @@
+const Discord = require('discord.js');
 const config = require('./config.json');
 const bot = require('./BotFunctions.js');
 
-const Discord = require('discord.js');
 const client = new Discord.Client();
 
-process.stdin.setEncoding('utf-8');
-
-let isReady = false;
-let channelConnection;
 let channel;
 let dispatcher;
+let isReady = false;
+let channelConnection;
 
-let fileMap = bot.loadFileList();
+let filesMap = bot.loadFileList();
 
+process.stdin.setEncoding('utf-8');
 console.log('Connecting...');
 
 client.once('ready', () => {
@@ -22,21 +21,20 @@ client.once('ready', () => {
 
 client.on('message', message => {
     if(!message.content.startsWith('#') || message.author.id != '494922928929112064') return;
-    
+
     const msg = message.content.substring(1);
 
     switch (msg) {
         case 'list':
-            let toSend = "";
-            fileMap.forEach((file, number) => toSend += `${number}-${file}\n`);
-            message.channel.send(toSend);
+            message.channel.send(bot.stringifyList(filesMap));
             break;
         case 'reload':
-            fileMap = bot.loadFileList();
+            filesMap = bot.loadFileList();
             break;
         case 'stop':
         case 'end':
             if(!dispatcher) return;
+
             dispatcher.end();
             break;
     }
@@ -46,7 +44,7 @@ client.on('message', message => {
             return;
         }
 
-        dispatcher = bot.playSound(channel, channelConnection, parseInt(msg.split(':')[1]), fileMap);
+        dispatcher = bot.playSound(channel, channelConnection, parseInt(msg.split(':')[1]), filesMap);
     }
 });
 
@@ -57,7 +55,6 @@ process.stdin.on('data', async data => {
     if(!re.test(data)) return;
 
     data = data.replace(re, '').trim();
-    console.log(data);
 
     switch (data) {
         case 'leave':
@@ -69,10 +66,10 @@ process.stdin.on('data', async data => {
             if(channel) channelConnection = await bot.joinChannel(channel);
             break;
         case 'list':
-            fileMap.forEach((file, number) => console.log(`${number}-${file}`));
+            filesMap.forEach((file, number) => console.log(`${number}-${file}`));
             break;
         case 'reload':
-            fileMap = bot.loadFileList();
+            filesMap = bot.loadFileList();
             break;
         case 'stop':
         case 'end':
@@ -82,14 +79,14 @@ process.stdin.on('data', async data => {
         case 'exit':
             process.exit();
     }
-    
+
     if(data.startsWith('play')) {
         if(!new RegExp('^play:.+').test(data)) {
             console.log('Incorrect usage <play>:<number>');
             return;
         }
 
-        dispatcher = bot.playSound(channel, channelConnection, parseInt(data.split(':')[1]), fileMap);
+        dispatcher = bot.playSound(channel, channelConnection, parseInt(data.split(':')[1]), filesMap);
     }
 
 });
