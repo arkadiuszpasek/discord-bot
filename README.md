@@ -20,7 +20,7 @@ Here you need to
 - Change userId to your discord user id (this makes bot able to search and come to a channel you are currently in)
 
 # How to run it
-- Run `npm sart ` or `node index.js`, you should see 'Connected' output in console
+- Run `npm start ` or `node index.js`, you should see 'Connected' output in console
 - Now you can use commands `bot command`, for example: `bot help`,
 
 ## Commands implemented
