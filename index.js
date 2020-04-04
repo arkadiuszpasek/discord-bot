@@ -20,7 +20,7 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
-    if(!message.content.startsWith('#') || message.author.id != '494922928929112064') return;
+    if(!message.content.startsWith('#') || message.author.id != config.userId) return;
 
     const msg = message.content.substring(1);
 
@@ -76,6 +76,9 @@ process.stdin.on('data', async data => {
             if(!dispatcher) return;
             dispatcher.end();
             break;
+        case 'help':
+            console.log('bot leave|come|list|reload|stop|end|exit|play:x|');
+            break;
         case 'exit':
             process.exit();
     }
@@ -88,7 +91,6 @@ process.stdin.on('data', async data => {
 
         dispatcher = bot.playSound(channel, channelConnection, parseInt(data.split(':')[1]), filesMap);
     }
-
 });
 
 client.login(config.token);
