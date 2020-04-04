@@ -16,7 +16,7 @@ CLI Bot implementing music interface (playing music files from specified directo
 }
 ```
 Here you need to 
-- add your application token: go to [DiscordApp Developers)(https://discordapp.com/developers) , find application you want to use (or make a new one), in 'bot' tab find the token and paste it to your `config.json`
+- add your application token: go to [DiscordApp Developers](https://discordapp.com/developers), find application you want to use (or make a new one), in 'bot' tab find the token and paste it to your `config.json`
 - Change userId to your discord user id (this makes bot able to search and come to a channel you are currently in)
 ## npm dependencies installed:
 - discord.js
