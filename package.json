@@ -8,9 +8,11 @@
   },
   "author": "Arkadiusz Pasek",
   "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.7.2"
+  },
   "dependencies": {
     "discord.js": "^11.5.1",
-    "eslint": "^6.7.2",
     "ffmpeg": "0.0.4",
     "ffmpeg-binaries": "^4.0.0",
     "node-opus": "^0.3.3"
