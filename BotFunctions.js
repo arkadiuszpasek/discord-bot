@@ -28,7 +28,7 @@ exports.findChannel = botClient => {
     return botClient.channels.find(channel => {
         if(!(channel instanceof Discord.VoiceChannel) || channel.members == undefined) return false;
 
-        return channel.members.get('494922928929112064') !== undefined;
+        return channel.members.get(config.userId) !== undefined;
     });
 };
 
